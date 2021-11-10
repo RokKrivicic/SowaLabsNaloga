@@ -1,6 +1,5 @@
-const { Builder, By, until } = require("selenium-webdriver");
+const { Builder, By} = require("selenium-webdriver");
 const assert = require("assert");
-var path = require('path')
 
 describe("Subscribe to newsletter tests", function () {
 
