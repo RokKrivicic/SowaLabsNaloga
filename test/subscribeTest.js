@@ -23,18 +23,17 @@ describe("Subscribe to newsletter tests", function () {
     this.afterAll(async function () {
         driver.quit();
     });
-        it(`test sucessfull subscribe`, async function () {
-            await driver.executeScript("window.scrollTo(0, document.body.scrollHeight)");
-            await driver.findElement(By.name("newsletter-name")).sendKeys(name);
-            await driver.findElement(By.name("newsletter-email")).sendKeys(email);
-            await driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/section[1]/div/div/div/div/div/section/div/div/div[5]/div/div/div[2]/div/div/div/div/div/section/div/div/div/div/div/div/div/form/div[3]/label")).click();
-            const checkbox = await driver.findElement(By.xpath("//*[@id='newsletter-chk-2']"));
-            await driver.executeScript("arguments[0].click()", checkbox);
-            await driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/section[1]/div/div/div/div/div/section/div/div/div[5]/div/div/div[2]/div/div/div/div/div/section/div/div/div/div/div/div/div/form/div[5]/button")).click();
-
-            const message = await driver.findElement(By.className("newsletter-message")).getText().then(function(value){
-                return value
-            });
-            assert.strictEqual(message, "Confimation email sent.", "Mail was not send") //check if the title is the same as the word you click on 
+    it(`test sucessfull subscribe`, async function () {
+        await driver.executeScript("window.scrollTo(0, document.body.scrollHeight)"); //move to the bottom of the page
+        await driver.findElement(By.name("newsletter-name")).sendKeys(name); //locate and insert name
+        await driver.findElement(By.name("newsletter-email")).sendKeys(email); //logate and insert email
+        await driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/section[1]/div/div/div/div/div/section/div/div/div[5]/div/div/div[2]/div/div/div/div/div/section/div/div/div/div/div/div/div/form/div[3]/label")).click();//find first checkbox
+        const checkbox = await driver.findElement(By.xpath("//*[@id='newsletter-chk-2']"));
+        await driver.executeScript("arguments[0].click()", checkbox);//find and click second checkbox
+        await driver.findElement(By.xpath("/html/body/div[1]/div[3]/div/section[1]/div/div/div/div/div/section/div/div/div[5]/div/div/div[2]/div/div/div/div/div/section/div/div/div/div/div/div/div/form/div[5]/button")).click();//click subscribe
+        const message = await driver.findElement(By.className("newsletter-message")).getText().then(function (value) {
+            return value //find notification
         });
+        assert.strictEqual(message, "Confimation email sent.", "Mail was not send") //check if the notification is correct
+    });
 });
